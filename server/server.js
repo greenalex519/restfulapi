@@ -1,5 +1,7 @@
 //BASE SETUP
 
+const Rat = require('../client/models/rat');
+
 //call packages needed
 const express = require('express');
 const app = express();
