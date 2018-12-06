@@ -4,6 +4,10 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+
+//connect to database
+mongoose.connect('mongodb://<dbuser>:<dbpassword>@ds227654.mlab.com:27654/restfulapi');
 
 //configure app to use bodyParser()
 //this allows us to get data from a POST
