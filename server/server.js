@@ -27,13 +27,29 @@ router.use(function(req, res, next) {
   console.log('Middleware reached.');
   next(); //make sure it then continues on its request to route...
 })
+//middleware can later be added to confirm request is safe etc; user is authenticated; log data for analytics; collect statistic data etc...
 
 //test route to check is working
 router.get('/', function(req, res) {
   res.json({ message: 'hurray! welcome to our API!' });
 });
 
-//more routes for API will happen here
+//on routes that end in /rats
+router.route('/rats')
+  //create a bear (accessed at POST /api/rats)
+  .post(function(req, res) {
+    const rat = new Rat(); //create a new instance of rat model
+    rat.name = req.body.name; //assign name of rat with the data coming from the request
+
+    //save rat and check for errors
+    rat.save(function(err) {
+      if (err)
+        res.send(err);
+
+      res.json({ mesage: 'Rat created!' });//implied else?
+    });
+
+  });
 
 //REGISTER OUR ROUTES
 //all of our routes will be prefixed with '/api'
