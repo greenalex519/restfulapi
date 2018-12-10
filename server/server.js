@@ -19,8 +19,14 @@ app.use(bodyParser.json());
 const port = process.env.PORT || 8080;
 
 //ROUTES FOR API
-
+//
 const router = express.Router(); //get an instance of express router
+
+//middleware to use for all requests
+router.use(function(req, res, next) {
+  console.log('Middleware reached.');
+  next(); //make sure it then continues on its request to route...
+})
 
 //test route to check is working
 router.get('/', function(req, res) {
@@ -30,7 +36,7 @@ router.get('/', function(req, res) {
 //more routes for API will happen here
 
 //REGISTER OUR ROUTES
-//all of our routes will be prefixed with '/api' 
+//all of our routes will be prefixed with '/api'
 app.use('/api', router);
 
 //START THE SERVER
