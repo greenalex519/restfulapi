@@ -1,27 +1,33 @@
 //BASE SETUP
-
-const Rat = require('../client/models/rat');
-
 //call packages needed
 const express = require('express');
-const app = express();
 const bodyParser = require('body-parser');
+const app = express();
 const morgan = require('morgan');
 
-const mongoose = require('mongoose');
-
-//connect to database
-mongoose.connect('mongodb://<dbuser>:<dbpassword>@ds227654.mlab.com:27654/restfulapi');
+//configure app
+app.use(morgan('dev')); //logs request to console
 
 //configure app to use bodyParser()
 //this allows us to get data from a POST
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+
 const port = process.env.PORT || 8080;
 
+//DATABASE SETUP
+const mongoose = require('mongoose');
+
+mongoose.connect('mongodb://<dbuser>:<dbpassword>@ds227654.mlab.com:27654/restfulapi');
+
+//Rat model lives here
+const Rat = require('../client/models/rat');
+
 //ROUTES FOR API
-//
+//===================================================
+
+//create router
 const router = express.Router(); //get an instance of express router
 
 //middleware to use for all requests
@@ -37,9 +43,13 @@ router.get('/', function(req, res) {
 });
 
 //on routes that end in /rats
+//-------------------------------------------
+
 router.route('/rats')
-  //create a bear (accessed at POST /api/rats)
-  .post(function(req, res) {
+
+  //create a rat (accessed at POST [...]/api/rats)
+  .post(function(req, res)
+
     const rat = new Rat(); //create a new instance of rat model
     rat.name = req.body.name; //assign name of rat with the data coming from the request
 
@@ -48,10 +58,9 @@ router.route('/rats')
       if (err)
         res.send(err);
 
-      res.json({ mesage: 'Rat created!' });//implied else?
+      res.json({ message: 'Rat created!' });//implied else?
     });
 
-  });
 
 //REGISTER OUR ROUTES
 //all of our routes will be prefixed with '/api'
